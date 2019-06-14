@@ -31,6 +31,7 @@ class Test:
 
     def run(self):
         self.thead.start()
+        self.thead.join()
 
     def work(self):
         while True:
