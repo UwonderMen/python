@@ -19,12 +19,12 @@ import logging
     logger之间的继承
 """
 FORMAT = "%(asctime)s:%(thread)d:%(message)s"
-# logging.basicConfig(level=logging.INFO,format=FORMAT,datefmt="%y-%m-%d %H:%M:%S")
-# loga = logging.getLogger("a")
-# loga.setLevel(20)
-# loga.info("asdasd")
-# logb = logging.getLogger("a.b")
-# logb.info("lllll")
+logging.basicConfig(level=logging.INFO,format=FORMAT,datefmt="%y-%m-%d %H:%M:%S")
+loga = logging.getLogger("a")
+loga.setLevel(20)
+loga.info("asdasd")
+logb = logging.getLogger("a.b")
+logb.info("lllll")
 
 
 
