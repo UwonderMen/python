@@ -1,11 +1,8 @@
-import socket
-import time
-import logging
-import threading
+import socket,threading,time,logging
 
 logging.basicConfig(level=logging.INFO,format="%(message)s")
 
-class ChatServer:
+class Server:
 
     def __init__(self,ip="127.0.0.1",port=8080):
         self.person = {}
@@ -56,6 +53,5 @@ class ChatServer:
                 client.send(msg)
 
 
-
-c = ChatServer()
+c = Server()
 c.start()
