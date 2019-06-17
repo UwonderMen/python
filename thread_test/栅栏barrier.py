@@ -22,6 +22,5 @@ for x in range(0,8):
         barrier.abort()
     if x == 6:
         barrier.reset()
-
     threading.Event().wait(1)
     threading.Thread(target=worker, args=(barrier,)).start()
