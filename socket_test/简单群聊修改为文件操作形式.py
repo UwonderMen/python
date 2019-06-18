@@ -25,31 +25,38 @@ class Server:
     def _accept(self):
         while not self.event.is_set():
             client,addr = self.socket.accept()
-            self.person[addr] = client
+            f = client.makefile(mode="rw")
+            # self.person[addr] = client  #改成文件形式
+            self.person[addr] = f
             logging.info("{} is connect on server".format(addr))
-            threading.Thread(target=self._rec,args=(client,addr,)).start()
+            threading.Thread(target=self._rec,args=(f,addr,)).start()
 
-    def _rec(self,client:socket.socket,addr):
+    def _rec(self,f,addr):
         while not self.event.is_set():
             try:
                 # 这里如果不进行异常处理，当一个客户端断开以后，其他客户端可能会受到影响，同时，在windows下可能因为，
                 # 客户端强行端开后，第二次连接不能再使用recv()方法
-                msg = client.recv(1024)
-                msg = msg.decode("gbk")
+                # msg = f.recv(1024)
+
+                msg = f.readline()
+                # 当客户端主动断开连接后，无法读取到消息，
+                # 因此为空，那么判断是否为空作为结束条件，但是这样很牵强
+                if msg == '':break
             except Exception as e:
                 logging.info(e)
                 msg = "quit"
 
             if msg == "quit":
-                client.close()
+                # client.close()
+                f.close()
                 break
             logging.info("{}发送的群消息是：{}，发送的时间是：{}".format(addr,msg,time.ctime()))
-            self._broadcast(addr,msg.encode("gbk"))
+            self._broadcast(addr,msg)
 
     def _broadcast(self,addr,msg):
-        for caddr,client in self.person.items():
+        for caddr,f in self.person.items():
             if caddr is not addr:
-                client.send(msg)
+                f.write(msg)
 
 s = Server()
 
