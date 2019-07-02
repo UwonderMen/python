@@ -1,12 +1,13 @@
-import pymysql
-
+import pymysql.cursors
 with pymysql.connect("127.0.0.1","root","123456","my1",3306)  as cursor:
 
-    sql = "insert into t(a,b) values(10,8)"
+    sql = "select * from t where a=%s"
 
-    res = cursor.execute(sql)
+    line = cursor.execute(sql,args=(20,))
 
-    print()
+    res = cursor.fetchall()
+
+    print(res)
 
 
 
